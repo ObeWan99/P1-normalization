@@ -63,7 +63,8 @@ for j in auth web system; do
     -X POST "localhost:9200/raw-$j/_bulk?refresh=true" --data-binary @data/raw-$j.ndjson \
     | grep -o '"errors":[a-z]*'
 done
-curl -u "elastic:$ELASTIC_PASSWORD" "localhost:9200/_cat/indices/raw-*?v&h=index,docs.count&s=index"
+curl -u "elastic:$ELASTIC_PASSWORD" \
+  "localhost:9200/_cat/indices/raw-*?v&h=index,docs.count&s=index"
 ```
 ✔ `"errors":false` трижды; `raw-auth` 20000, `raw-system` 15000, `raw-web` 15000
 
