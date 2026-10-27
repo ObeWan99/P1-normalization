@@ -1,0 +1,12 @@
+# Настройки Kibana для практики. Подключаются в docker-compose.yml (сервис kibana, volumes).
+# Первые три строки — стандартные настройки образа Kibana для Docker.
+server.host: "0.0.0.0"
+server.shutdownTimeout: "5s"
+elasticsearch.hosts: [ "http://elasticsearch:9200" ]
+
+# Настройки интерфейса, заданные заранее (в Advanced Settings они видны, но заблокированы):
+uiSettings.overrides:
+  # Время показывать в UTC — как в журналах
+  "dateFormat:tz": "UTC"
+  # Период по умолчанию — неделя журналов, 10–16 марта 2025
+  "timepicker:timeDefaults": '{ "from": "2025-03-10T00:00:00Z", "to": "2025-03-17T00:00:00Z" }'

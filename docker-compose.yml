@@ -45,6 +45,7 @@ services:
       - NEWSFEED_ENABLED=false
     volumes:
       - kibanadata:/usr/share/kibana/data
+      - ./kibana/kibana.yml:/usr/share/kibana/config/kibana.yml:ro   # настройки: время в UTC, период журналов
     ports:
       - "127.0.0.1:5601:5601"                   # веб-интерфейс: http://localhost:5601
     mem_limit: 2g

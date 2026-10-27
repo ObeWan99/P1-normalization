@@ -80,18 +80,11 @@ curl -u "elastic:$ELASTIC_PASSWORD" -H 'Content-Type: application/json' \
 ```
 ✔ `{"acknowledged":true}`; затем `"created":15000`, `"failures":[]`
 
-## 8. Kibana: время и представления данных
+## 8. Kibana: представления данных
 
-Разделы ищутся через строку поиска вверху Kibana.
+Часовой пояс (`UTC`) и период по умолчанию (10–16 марта 2025) Kibana берёт из файла `kibana/kibana.yml` при запуске — настраивать их не нужно.
 
-**Advanced Settings** (у страницы своя строка поиска — вводите название настройки) → внизу **Save changes**:
-
-| Настройка | Значение |
-|---|---|
-| Time zone | `UTC` |
-| Time filter defaults | `{ "from": "2025-03-10T00:00:00Z", "to": "2025-03-17T00:00:00Z" }` |
-
-**Data Views** → Create data view → Save data view to Kibana, пять раз:
+Разделы ищутся через строку поиска вверху Kibana. **Data Views** → Create data view → Save data view to Kibana, пять раз:
 
 | Name | Index pattern | Timestamp field |
 |---|---|---|

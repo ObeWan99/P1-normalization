@@ -20,6 +20,7 @@
 | `P1-start.pdf` | развёртывание для печати: все команды по шагам с разбором каждой части команды |
 | `ecs-reference.md` | справка: поля ECS |
 | `docker-compose.yml` | Elasticsearch 9.4.8 + Kibana 9.4.8 |
+| `kibana/kibana.yml` | настройки Kibana: время в UTC, период журналов по умолчанию |
 | `.env.example` | образец файла паролей |
 | `data/raw-auth.ndjson` | журнал входов, 20 000 событий |
 | `data/raw-web.ndjson` | журнал веб-портала, 15 000 событий |
