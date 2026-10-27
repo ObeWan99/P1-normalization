@@ -16,7 +16,7 @@ git clone https://github.com/ObeWan99/P1-normalization.git
 cd P1-normalization
 cp .env.example .env
 openssl rand -hex 16        # значение для ENCRYPTION_KEY
-nano .env                   # заполнить ELASTIC_PASSWORD, KIBANA_PASSWORD, ENCRYPTION_KEY
+nano .env                   # заполнить ELASTIC_PASSWORD, KIBANA_PASSWORD (не короче 6 символов), ENCRYPTION_KEY
 source .env                 # повторять в каждом новом терминале
 ```
 
@@ -112,6 +112,7 @@ Discover → «Сырые журналы (raw-\*)» — **50,000** событи�
 | `permission denied ... docker.sock` | `sudo usermod -aG docker $USER`, перезайти |
 | `port is already allocated` | порт 9200/5601 занят: `docker ps`, `docker stop <имя>` |
 | `curl: (56) Recv failure: Connection reset by peer` | Elasticsearch ещё запускается: ждать `(healthy)` в `docker compose ps`, повторить |
+| `passwords must be at least [6] characters long` | в `.env` удлинить `KIBANA_PASSWORD`, `source .env`, повторить шаг 3 (`ELASTIC_PASSWORD` не менять) |
 | `401` / `unable to authenticate` | `source .env` в этом терминале; если пароль меняли после запуска — начать заново |
 | HTML прокси в ответе `curl` | `unset http_proxy https_proxy` или `curl --noproxy '*'` |
 | Elasticsearch не `healthy` | `docker compose logs elasticsearch --tail 30`; память `free -h` |
