@@ -84,11 +84,11 @@ curl -u "elastic:$ELASTIC_PASSWORD" -H 'Content-Type: application/json' \
 
 Разделы ищутся через строку поиска вверху Kibana.
 
-**Advanced Settings** → Save changes:
+**Advanced Settings** (у страницы своя строка поиска — вводите название настройки) → внизу **Save changes**:
 
 | Настройка | Значение |
 |---|---|
-| Timezone for date formatting | `UTC` |
+| Time zone | `UTC` |
 | Time filter defaults | `{ "from": "2025-03-10T00:00:00Z", "to": "2025-03-17T00:00:00Z" }` |
 
 **Data Views** → Create data view → Save data view to Kibana, пять раз:
@@ -103,7 +103,7 @@ curl -u "elastic:$ELASTIC_PASSWORD" -H 'Content-Type: application/json' \
 
 ## ✔ Проверка
 
-Discover → «Сырые журналы (raw-\*)» — **50,000** событий; «Нормализованные журналы (norm-\*)» — **15,000**.
+Discover → список **Data view** слева вверху (по умолчанию там пустое **All logs**) → «Сырые журналы (raw-\*)» — **50,000** событий; «Нормализованные журналы (norm-\*)» — **15,000**.
 
 ## Ошибки
 
