@@ -1,0 +1,19 @@
+{
+  "description": "Журнал веб-портала -> ECS. Готовый образец: веб-журнал уже нормализован этим конвейером в norm-web.",
+  "processors": [
+    { "set":    { "field": "event.dataset", "value": "web" } },
+    { "date":   { "field": "timestamp", "target_field": "@timestamp", "formats": ["ISO8601"], "timezone": "UTC" } },
+    { "rename": { "field": "source_ip",        "target_field": "source.ip" } },
+    { "rename": { "field": "event_type",       "target_field": "event.action" } },
+    { "rename": { "field": "severity",         "target_field": "log.level" } },
+    { "rename": { "field": "method",           "target_field": "http.request.method" } },
+    { "rename": { "field": "url",              "target_field": "url.original" } },
+    { "rename": { "field": "status_code",      "target_field": "http.response.status_code" } },
+    { "rename": { "field": "user_agent",       "target_field": "user_agent.original" } },
+    { "rename": { "field": "bytes_sent",       "target_field": "http.response.bytes" } },
+    { "rename": { "field": "response_time_ms", "target_field": "http.response.time_ms" } },
+    { "lowercase": { "field": "event.action" } },
+    { "lowercase": { "field": "log.level" } },
+    { "remove": { "field": "timestamp" } }
+  ]
+}
