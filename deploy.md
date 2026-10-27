@@ -111,6 +111,7 @@ Discover → «Сырые журналы (raw-\*)» — **50,000** событи�
 |---|---|
 | `permission denied ... docker.sock` | `sudo usermod -aG docker $USER`, перезайти |
 | `port is already allocated` | порт 9200/5601 занят: `docker ps`, `docker stop <имя>` |
+| `curl: (56) Recv failure: Connection reset by peer` | Elasticsearch ещё запускается: ждать `(healthy)` в `docker compose ps`, повторить |
 | `401` / `unable to authenticate` | `source .env` в этом терминале; если пароль меняли после запуска — начать заново |
 | HTML прокси в ответе `curl` | `unset http_proxy https_proxy` или `curl --noproxy '*'` |
 | Elasticsearch не `healthy` | `docker compose logs elasticsearch --tail 30`; память `free -h` |
