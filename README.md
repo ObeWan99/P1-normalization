@@ -74,3 +74,8 @@ Detection rules → Create new rule → **Threshold**: `event.action : "login_fa
 ## Часть 5. Отчёт смены
 
 10–15 строк руководителю: что произошло; что затронуто; что сделать неотложно; что настроить, чтобы видеть вовремя; чего пока не знаем.
+
+
+
+curl -u "elastic:$ELASTIC_PASSWORD" -X DELETE \
+  "localhost:9200/raw-auth,raw-web,raw-system,norm-web?ignore_unavailable=true"
