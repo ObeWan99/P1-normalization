@@ -1,0 +1,54 @@
+# Учебная SIEM для практики: Elasticsearch (хранит и ищет события) + Kibana (веб-интерфейс к нему).
+# Пароли и ключ берутся из файла .env — создайте его из .env.example (см. README, шаг 0.1).
+name: p1-siem
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:9.4.8
+    network_mode: host
+    environment:
+      - discovery.type=single-node              # один узел, без кластера
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}    # пароль суперпользователя elastic
+      - xpack.security.enabled=true             # вход по логину и паролю
+      - xpack.security.http.ssl.enabled=false   # без HTTPS: стенд только на этой машине
+      - xpack.security.transport.ssl.enabled=false
+      - xpack.license.self_generated.type=basic # бесплатная лицензия
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g              # память Java: 1 ГБ
+      # Пороги свободного места на диске в гигабайтах (по умолчанию — в процентах, на маленьком диске мешают)
+      - cluster.routing.allocation.disk.watermark.low=3gb
+      - cluster.routing.allocation.disk.watermark.high=2gb
+      - cluster.routing.allocation.disk.watermark.flood_stage=1gb
+      - network.host=127.0.0.1
+    volumes:
+      - esdata:/usr/share/elasticsearch/data    # данные переживут перезапуск контейнера
+    mem_limit: 2g
+    healthcheck:                                # «здоров», когда кластер отвечает green или yellow
+      test: ["CMD-SHELL", "curl -s -u elastic:${ELASTIC_PASSWORD} http://localhost:9200/_cluster/health | grep -qE '\"status\":\"(green|yellow)\"'"]
+      interval: 5s
+      timeout: 5s
+      retries: 60
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:9.4.8
+    network_mode: host
+    depends_on:
+      elasticsearch:
+        condition: service_healthy              # стартует, когда Elasticsearch уже здоров
+    environment:
+      - ELASTICSEARCH_HOSTS=http://127.0.0.1:9200
+      - ELASTICSEARCH_USERNAME=kibana_system    # служебная учётка Kibana (не elastic!)
+      - ELASTICSEARCH_PASSWORD=${KIBANA_PASSWORD}
+      # Ключ шифрования: без него не работают правила обнаружения (часть 4)
+      - XPACK_SECURITY_ENCRYPTIONKEY=${ENCRYPTION_KEY}
+      - XPACK_ENCRYPTEDSAVEDOBJECTS_ENCRYPTIONKEY=${ENCRYPTION_KEY}
+      - XPACK_REPORTING_ENCRYPTIONKEY=${ENCRYPTION_KEY}
+      - TELEMETRY_OPTIN=false
+      - NEWSFEED_ENABLED=false
+    volumes:
+      - kibanadata:/usr/share/kibana/data
+      - ./kibana/kibana.yml:/usr/share/kibana/config/kibana.yml:ro   # настройки: время в UTC, период журналов
+    mem_limit: 2g
+
+volumes:
+  esdata:
+  kibanadata:
